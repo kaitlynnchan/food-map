@@ -2,4 +2,15 @@
 <resources>
 
     <style name="Theme.FoodMap" parent="android:Theme.Material.Light.NoActionBar" />
+    <!-- Base application theme. -->
+    <style name="Base.Theme.FoodMap" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+    
+    <style name="NavBar" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="colorPrimary">@color/dark_aqua</item>
+        <item name="colorPrimaryDark">@color/light_aqua</item>
+        <item name="colorAccent">@color/aqua_highlight</item>
+    </style>
 </resources>
