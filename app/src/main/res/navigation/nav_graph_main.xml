@@ -9,36 +9,15 @@
         android:id="@+id/ListFagment"
         android:name="com.example.foodmap.ui.main.ListFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_list">
-        <action
-            android:id="@+id/action_ListFagment_to_ProfileFragment"
-            app:destination="@id/ProfileFragment" />
-        <action
-            android:id="@+id/action_ListFagment_to_MapsFragment2"
-            app:destination="@id/MapsFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_list"/>
     <fragment
         android:id="@+id/MapsFragment"
         android:name="com.example.foodmap.ui.main.MapsFragment"
         android:label="fragment_maps"
-        tools:layout="@layout/fragment_maps">
-        <action
-            android:id="@+id/action_MapsFragment_to_ProfileFragment"
-            app:destination="@id/ProfileFragment" />
-        <action
-            android:id="@+id/action_MapsFragment_to_ListFagment"
-            app:destination="@id/ListFagment" />
-    </fragment>
+        tools:layout="@layout/fragment_maps"/>
     <fragment
         android:id="@+id/ProfileFragment"
         android:name="com.example.foodmap.ui.main.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile">
-        <action
-            android:id="@+id/action_ProfileFragment_to_ListFagment"
-            app:destination="@id/ListFagment" />
-        <action
-            android:id="@+id/action_ProfileFragment_to_MapsFragment"
-            app:destination="@id/MapsFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_profile"/>
 </navigation>

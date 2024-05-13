@@ -12,6 +12,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.foodmap.databinding.ActivityMainBinding;
 
 import com.example.foodmap.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        BottomNavigationView navView = findViewById(R.id.bottomNavigationView);
         NavController navController = Navigation.findNavController(this, R.id.mainActivityFragment);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
