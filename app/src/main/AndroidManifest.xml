@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FoodMap"
         tools:targetApi="31">
+
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -30,9 +31,10 @@
         <activity
             android:name=".ui.LoginActivity"
             android:exported="true"
-            android:theme="@style/Theme.FoodMap" >
+            android:theme="@style/Theme.FoodMap">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -40,8 +42,7 @@
             android:name=".ui.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.FoodMap">
-        </activity>
+            android:theme="@style/Theme.FoodMap"></activity>
     </application>
 
 </manifest>

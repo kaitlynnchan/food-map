@@ -1,4 +1,4 @@
-package com.example.foodmap.ui;
+package com.example.foodmap.ui.main;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,11 +10,11 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.foodmap.R;
-import com.example.foodmap.databinding.FragmentSecond2Binding;
+import com.example.foodmap.databinding.FragmentFirst2Binding;
 
-public class Second2Fragment extends Fragment {
+public class MapFragment extends Fragment {
 
-    private FragmentSecond2Binding binding;
+    private FragmentFirst2Binding binding;
 
     @Override
     public View onCreateView(
@@ -22,7 +22,7 @@ public class Second2Fragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
-        binding = FragmentSecond2Binding.inflate(inflater, container, false);
+        binding = FragmentFirst2Binding.inflate(inflater, container, false);
         return binding.getRoot();
 
     }
@@ -30,9 +30,9 @@ public class Second2Fragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.buttonSecond.setOnClickListener(v ->
-                NavHostFragment.findNavController(Second2Fragment.this)
-                        .navigate(R.id.action_Second2Fragment_to_First2Fragment)
+        binding.buttonFirst.setOnClickListener(v ->
+                NavHostFragment.findNavController(MapFragment.this)
+                        .navigate(R.id.action_First2Fragment_to_Second2Fragment)
         );
     }
 
