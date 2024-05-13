@@ -10,11 +10,11 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.foodmap.R;
-import com.example.foodmap.databinding.FragmentSecond2Binding;
+import com.example.foodmap.databinding.FragmentListBinding;
 
 public class ListFragment extends Fragment {
 
-    private FragmentSecond2Binding binding;
+    private FragmentListBinding binding;
 
     @Override
     public View onCreateView(
@@ -22,7 +22,7 @@ public class ListFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
-        binding = FragmentSecond2Binding.inflate(inflater, container, false);
+        binding = FragmentListBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
     }
@@ -30,10 +30,10 @@ public class ListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.buttonSecond.setOnClickListener(v ->
-                NavHostFragment.findNavController(ListFragment.this)
-                        .navigate(R.id.action_Second2Fragment_to_First2Fragment)
-        );
+//        binding.buttonSecond.setOnClickListener(v ->
+//                NavHostFragment.findNavController(ListFragment.this)
+//                        .navigate(R.id)
+//        );
     }
 
     @Override

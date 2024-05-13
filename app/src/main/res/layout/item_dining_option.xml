@@ -8,10 +8,10 @@
     android:padding="10dp">
 
     <TextView
-        android:id="@+id/details2"
+        android:id="@+id/descriptionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="details"
+        android:text="@string/place_details"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/listName"
         app:layout_constraintTop_toBottomOf="@+id/listName" />
@@ -20,7 +20,7 @@
         android:id="@+id/listName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Restaurant"
+        android:text="@string/place_name"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.097"

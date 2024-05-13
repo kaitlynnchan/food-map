@@ -11,7 +11,7 @@
         android:id="@+id/listName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Favourites"
+        android:text="@string/list_name"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.097"
@@ -19,10 +19,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/details2"
+        android:id="@+id/descriptionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="description"
+        android:text="@string/list_description"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/listName"
         app:layout_constraintTop_toBottomOf="@+id/listName" />
