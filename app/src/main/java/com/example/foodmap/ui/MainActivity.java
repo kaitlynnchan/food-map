@@ -1,7 +1,9 @@
 package com.example.foodmap.ui;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.navigation.NavController;
@@ -12,11 +14,15 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.foodmap.databinding.ActivityMainBinding;
 
 import com.example.foodmap.R;
+import com.example.foodmap.ui.main.ListFragment;
+import com.example.foodmap.ui.main.MapsFragment;
+import com.example.foodmap.ui.main.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private AppBarConfiguration appBarConfiguration;
+//    private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
 
     @Override
@@ -26,17 +32,38 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        MapsFragment mapsFragment = new MapsFragment();
+        ListFragment listFragment = new ListFragment();
+        ProfileFragment profileFragment = new ProfileFragment();
+
         BottomNavigationView navView = findViewById(R.id.bottomNavigationView);
-        NavController navController = Navigation.findNavController(this, R.id.mainActivityFragment);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        navView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case (R.id.location):
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.mainActivityFragment, mapsFragment)
+                                .commit();
+                        return true;
+                    case (R.id.list):
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.mainActivityFragment, listFragment)
+                                .commit();
+                        return true;
+                    case (R.id.profile):
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.mainActivityFragment, profileFragment)
+                                .commit();
+                        return true;
+                }
+                return false;
+            }
+        });
 
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.mainActivityFragment);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
-    }
 }

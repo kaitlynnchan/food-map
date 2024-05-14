@@ -1,5 +1,6 @@
 package com.example.foodmap.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
@@ -18,6 +19,10 @@ public final class LoginActivity extends AppCompatActivity {
         startBtn.setOnClickListener(v -> {
             // TODO: setup OAuth
             // link to OAuth login/signup page
+
+            // temporary
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
         });
     }
 }
