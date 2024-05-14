@@ -20,7 +20,7 @@ public final class LoginActivity extends AppCompatActivity {
             // TODO: setup OAuth
             // link to OAuth login/signup page
 
-            // temporary
+            // open main activity
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
         });

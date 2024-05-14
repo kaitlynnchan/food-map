@@ -8,4 +8,5 @@
         <item name="colorPrimaryDark">@color/light_aqua</item>
         <item name="colorAccent">@color/aqua_highlight</item>
     </style>
+
 </resources>

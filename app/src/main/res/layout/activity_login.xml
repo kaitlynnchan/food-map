@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.324" />
 
-    <android.widget.Button
+    <Button
         android:id="@+id/startButton"
         android:layout_width="286dp"
         android:layout_height="62dp"
@@ -32,6 +32,7 @@
         android:text="Let's Get Started!"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
+        app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
