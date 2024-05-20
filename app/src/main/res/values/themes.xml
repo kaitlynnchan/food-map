@@ -3,7 +3,7 @@
 
     <style name="Theme.FoodMap" parent="android:Theme.Material.Light.NoActionBar" />
     <!-- Base application theme. -->
-    <style name="Base.Theme.FoodMap" parent="Theme.Material3.DayNight">
+    <style name="Base.Theme.FoodMap" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/dark_green</item>
         <item name="colorPrimaryDark">@color/light_aqua</item>
         <item name="colorAccent">@color/aqua_highlight</item>
