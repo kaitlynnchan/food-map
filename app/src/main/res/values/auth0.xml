@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="com_auth0_client_id">p5q2Pd1mdPBzMbtWNMrk9kNY9PiDYw7C</string>
+    <string name="com_auth0_domain">dev-lzkkf8sct3li4h6n.us.auth0.com</string>
+    <string name="com_auth0_scheme">app</string>
+</resources>
