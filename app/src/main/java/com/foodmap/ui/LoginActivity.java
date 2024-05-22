@@ -1,10 +1,8 @@
 package com.foodmap.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,7 +36,7 @@ public final class LoginActivity extends AppCompatActivity {
         binding.startButton.setOnClickListener(v -> login());
     }
 
-    public void login(){
+    private void login(){
         WebAuthProvider
             .login(account)
             .withScheme(getString(R.string.com_auth0_scheme))
@@ -46,33 +44,19 @@ public final class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onSuccess(Credentials credentials) {
+                    System.out.println("login success");
+
                     // open main activity
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
+                    finish();
                 }
 
                 @Override
                 public void onFailure(@NonNull AuthenticationException e) {
                     System.out.println("didnt work!");
-                }
-            });
-    }
-
-    public void logout(Activity activity){
-        WebAuthProvider
-            .logout(account)
-            .withScheme(getString(R.string.com_auth0_scheme))
-            .start(this, new Callback<Void, AuthenticationException>() {
-
-                @Override
-                public void onSuccess(Void result) {
-                    // close main activity
-                    activity.finish();
-                }
-
-                @Override
-                public void onFailure(@NonNull AuthenticationException e) {
-                    System.out.println("Exception error: " + e.getMessage());
+                    Toast.makeText(LoginActivity.this,
+                            "Login failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
     }

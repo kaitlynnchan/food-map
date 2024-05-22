@@ -60,26 +60,26 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
-        account = new Auth0(this);
-        Button logoutBtn = findViewById(R.id.signoutBtn);
-        logoutBtn.setOnClickListener(v -> {
-            WebAuthProvider
-                    .logout(account)
-                    .withScheme(getString(R.string.com_auth0_scheme))
-                    .start(this, new Callback<Void, AuthenticationException>() {
-
-                        @Override
-                        public void onSuccess(Void result) {
-                            // close main activity
-                            MainActivity.this.finish();
-                        }
-
-                        @Override
-                        public void onFailure(@NonNull AuthenticationException e) {
-                            System.out.println("Exception error: " + e.getMessage());
-                        }
-                    });
-        });
+//        account = new Auth0(this);
+//        Button logoutBtn = findViewById(R.id.signoutBtn);
+//        logoutBtn.setOnClickListener(v -> {
+//            WebAuthProvider
+//                    .logout(account)
+//                    .withScheme(getString(R.string.com_auth0_scheme))
+//                    .start(this, new Callback<Void, AuthenticationException>() {
+//
+//                        @Override
+//                        public void onSuccess(Void result) {
+//                            // close main activity
+//                            MainActivity.this.finish();
+//                        }
+//
+//                        @Override
+//                        public void onFailure(@NonNull AuthenticationException e) {
+//                            System.out.println("Exception error: " + e.getMessage());
+//                        }
+//                    });
+//        });
     }
 
 }
