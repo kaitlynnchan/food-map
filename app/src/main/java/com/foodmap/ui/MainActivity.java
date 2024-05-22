@@ -1,16 +1,15 @@
-package com.example.foodmap.ui;
+package com.foodmap.ui;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.foodmap.databinding.ActivityMainBinding;
+import com.foodmap.databinding.ActivityMainBinding;
 
-import com.example.foodmap.R;
-import com.example.foodmap.ui.main.ListFragment;
-import com.example.foodmap.ui.main.MapsFragment;
-import com.example.foodmap.ui.main.ProfileFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.foodmap.R;
+import com.foodmap.ui.main.ListFragment;
+import com.foodmap.ui.main.MapsFragment;
+import com.foodmap.ui.main.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,12 +22,12 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // connect bottom navigation
         MapsFragment mapsFragment = new MapsFragment();
         ListFragment listFragment = new ListFragment();
         ProfileFragment profileFragment = new ProfileFragment();
 
-        BottomNavigationView navView = findViewById(R.id.bottomNavigationView);
-        navView.setOnItemSelectedListener(menuItem -> {
+        binding.bottomNavigationView.setOnItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()){
                 case (R.id.location):
                     getSupportFragmentManager()
@@ -51,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         });
-
     }
 
 }

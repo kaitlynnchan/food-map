@@ -7,17 +7,17 @@
 
     <fragment
         android:id="@+id/MapsFragment"
-        android:name="com.example.foodmap.ui.main.MapsFragment"
+        android:name="com.foodmap.ui.main.MapsFragment"
         android:label="fragment_maps"
         tools:layout="@layout/fragment_maps" />
     <fragment
         android:id="@+id/ListFagment"
-        android:name="com.example.foodmap.ui.main.ListFragment"
+        android:name="com.foodmap.ui.main.ListFragment"
         android:label="fragment_list"
         tools:layout="@layout/fragment_list" />
     <fragment
         android:id="@+id/ProfileFragment"
-        android:name="com.example.foodmap.ui.main.ProfileFragment"
+        android:name="com.foodmap.ui.main.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>
