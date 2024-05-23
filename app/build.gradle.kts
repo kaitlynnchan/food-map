@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.foodmap"
+    namespace = "com.foodmap.app"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.foodmap"
+        applicationId = "com.foodmap.app"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

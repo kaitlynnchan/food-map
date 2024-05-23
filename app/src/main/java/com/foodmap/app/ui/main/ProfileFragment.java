@@ -1,4 +1,4 @@
-package com.foodmap.ui.main;
+package com.foodmap.app.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,8 +15,8 @@ import com.auth0.android.Auth0;
 import com.auth0.android.authentication.AuthenticationException;
 import com.auth0.android.callback.Callback;
 import com.auth0.android.provider.WebAuthProvider;
-import com.foodmap.R;
-import com.foodmap.ui.LoginActivity;
+import com.foodmap.app.R;
+import com.foodmap.app.ui.LoginActivity;
 
 /**
  * A simple {@link Fragment} subclass.

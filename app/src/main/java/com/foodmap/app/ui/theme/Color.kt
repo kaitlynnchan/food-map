@@ -1,4 +1,4 @@
-package com.foodmap.ui.theme
+package com.foodmap.app.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

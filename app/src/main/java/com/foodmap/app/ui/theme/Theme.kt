@@ -1,4 +1,4 @@
-package com.foodmap.ui.theme
+package com.foodmap.app.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

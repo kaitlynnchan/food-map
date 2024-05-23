@@ -1,4 +1,4 @@
-package com.foodmap.ui;
+package com.foodmap.app.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +12,8 @@ import com.auth0.android.authentication.AuthenticationException;
 import com.auth0.android.callback.Callback;
 import com.auth0.android.provider.WebAuthProvider;
 import com.auth0.android.result.Credentials;
-import com.foodmap.R;
-import com.foodmap.databinding.ActivityLoginBinding;
+import com.foodmap.app.R;
+import com.foodmap.app.databinding.ActivityLoginBinding;
 
 import org.jetbrains.annotations.Nullable;
 
