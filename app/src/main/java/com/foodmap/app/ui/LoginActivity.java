@@ -44,6 +44,7 @@ public final class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onSuccess(Credentials credentials) {
+                    credentials.getUser().getId();
                     System.out.println("login success");
 
                     // open main activity

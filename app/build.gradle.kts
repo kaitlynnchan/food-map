@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -97,4 +98,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("com.auth0.android:auth0:2.9.2")
     implementation("com.auth0.android:jwtdecode:2.+")
+    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
+    implementation("com.google.firebase:firebase-firestore")
 }
