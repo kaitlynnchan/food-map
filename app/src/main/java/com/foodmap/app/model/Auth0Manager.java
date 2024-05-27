@@ -13,8 +13,6 @@ import com.auth0.android.callback.Callback;
 import com.auth0.android.provider.WebAuthProvider;
 import com.auth0.android.result.Credentials;
 import com.foodmap.app.R;
-import com.foodmap.app.ui.LoginActivity;
-import com.foodmap.app.ui.MainActivity;
 
 public class Auth0Manager {
 
