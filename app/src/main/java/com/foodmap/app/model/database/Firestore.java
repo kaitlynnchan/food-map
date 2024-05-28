@@ -32,15 +32,10 @@ public class Firestore {
         db = FirebaseFirestore.getInstance();
     }
 
-//    public User checkUserExists(String userID){
-//        User user = getUserCollection(userID);
-//        if (user == null){
-//            // create new user
-//            // add user
-//        } else{
-//            return user;
-//        }
-//    }
+    public Firestore(String userID, FirebaseFirestore db){
+        this.userID = userID;
+        this.db = db;
+    }
 
     public void addNewUserCollection(User user){
         // Add a new document with a auth0 ID

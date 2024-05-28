@@ -50,6 +50,11 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
 
 secrets {
@@ -90,6 +95,9 @@ dependencies {
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
     testImplementation(libs.junit)
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    testImplementation("org.mockito:mockito-core:3.11.2")
+    testImplementation("org.mockito:mockito-inline:3.11.2")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
