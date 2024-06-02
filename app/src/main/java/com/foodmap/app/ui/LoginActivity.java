@@ -33,7 +33,6 @@ public final class LoginActivity extends AppCompatActivity {
 
     private ActivityLoginBinding binding;
     private Auth0Manager auth0Manager;
-    private FirebaseAuth firebaseAuth;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,17 +40,16 @@ public final class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         auth0Manager = new Auth0Manager(this);
-        firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
         binding.startButton.setOnClickListener(v -> {
             auth0Manager.login(new Callback<Credentials, AuthenticationException>() {
 
                 @Override
                 public void onSuccess(Credentials credentials) {
-                    System.out.println("login success");
-                    signInWithFirebase(credentials.getIdToken());
+                    System.out.println("Authentication with Auth0 successful");
+                    // TODO: authenticate user with Firebase
 
+                    // create user with credentials
                     User user = new User(
                             credentials.getUser().getId(),
                             credentials.getUser().getEmail(),
@@ -67,7 +65,7 @@ public final class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(@NonNull AuthenticationException e) {
-                    System.out.println("didnt work!");
+                    System.out.println("Authentication with Auth0 failed");
                     Toast.makeText(LoginActivity.this,
                             "Login failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
@@ -75,41 +73,31 @@ public final class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void signInWithFirebase(String idToken) {
-        firebaseAuth.signInWithCustomToken(idToken)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser user = firebaseAuth.getCurrentUser();
-                            System.out.println("authentication with firebase successful");
-                        } else {
-                            // If sign in fails, display a message to the user.
-                        }
-                    }
-                });
-//        AuthCredential credential = OAuthProvider.newCredentialBuilder(idToken).build();
-//        firebaseAuth.signInWithCredential(credential)
-//                .addOnCompleteListener(this, task -> {
-//                    if (task.isSuccessful()) {
-//                        System.out.println("authentication with firebase successful");
-//                    } else {
-//                        // Sign-in failed
-//                        Toast.makeText(LoginActivity.this, "Firebase authentication failed.", Toast.LENGTH_LONG).show();
+//    private void signInWithFirebase(String idToken) {
+//        firebaseAuth.signInWithCustomToken(idToken)
+//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if (task.isSuccessful()) {
+//                            FirebaseUser user = firebaseAuth.getCurrentUser();
+//                            System.out.println("authentication with firebase successful");
+//                        } else {
+//                            System.out.println("authentication with firebase failed");
+//                        }
 //                    }
 //                });
-    }
-
+//    }
 
     private void saveUser(User user){
-//        SharedPreferences sharedPreferences = this.getSharedPreferences("SHARED_PREFS_USER", MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        Gson gson = new Gson();
-//        String json = gson.toJson(user);
-//        editor.putString("EDITOR_USER", json);
-//        editor.apply();
+        // save user locally to shared preferences
+        SharedPreferences sharedPreferences = this.getSharedPreferences("SHARED_PREFS_USER", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(user);
+        editor.putString("EDITOR_USER", json);
+        editor.apply();
 
+        // upload user to firestore
         Firestore firestore = new Firestore(user.getId());
         firestore.addNewUserCollection(user);
     }

@@ -56,7 +56,7 @@ public class ProfileFragment extends Fragment {
 
                 @Override
                 public void onSuccess(Void result) {
-//                    clearSharedPreferences();
+                    clearSharedPreferences();
 
                     // close main activity
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
