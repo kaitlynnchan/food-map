@@ -94,6 +94,7 @@ dependencies {
     implementation(libs.play.services.maps)
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
+    implementation(libs.firebase.auth)
     testImplementation(libs.junit)
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
     testImplementation("org.mockito:mockito-core:3.11.2")
@@ -107,5 +108,7 @@ dependencies {
     implementation("com.auth0.android:auth0:2.9.2")
     implementation("com.auth0.android:jwtdecode:2.+")
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
+    implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.code.gson:gson:2.11.0")
 }

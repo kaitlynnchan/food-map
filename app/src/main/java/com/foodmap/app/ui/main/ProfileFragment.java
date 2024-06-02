@@ -1,6 +1,8 @@
 package com.foodmap.app.ui.main;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -54,6 +56,7 @@ public class ProfileFragment extends Fragment {
 
                 @Override
                 public void onSuccess(Void result) {
+//                    clearSharedPreferences();
 
                     // close main activity
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
@@ -69,6 +72,11 @@ public class ProfileFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void clearSharedPreferences(){
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("SHARED_PREFS_USER", Context.MODE_PRIVATE);
+        sharedPreferences.edit().clear().commit();
     }
 
 }
