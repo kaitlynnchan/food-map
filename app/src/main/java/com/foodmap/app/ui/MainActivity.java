@@ -1,15 +1,15 @@
-package com.foodmap.ui;
+package com.foodmap.app.ui;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.foodmap.databinding.ActivityMainBinding;
+import com.foodmap.app.databinding.ActivityMainBinding;
 
-import com.foodmap.R;
-import com.foodmap.ui.main.ListFragment;
-import com.foodmap.ui.main.MapsFragment;
-import com.foodmap.ui.main.ProfileFragment;
+import com.foodmap.app.R;
+import com.foodmap.app.ui.main.ListFragment;
+import com.foodmap.app.ui.main.MapsFragment;
+import com.foodmap.app.ui.main.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.foodmap.ui.main;
+package com.foodmap.app.ui.main;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.foodmap.databinding.FragmentListBinding;
+import com.foodmap.app.databinding.FragmentListBinding;
 
 public class ListFragment extends Fragment {
 

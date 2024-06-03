@@ -2,14 +2,15 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
+    id("com.google.gms.google-services")
 }
 
 android {
-    namespace = "com.foodmap"
+    namespace = "com.foodmap.app"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.foodmap"
+        applicationId = "com.foodmap.app"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -49,6 +50,11 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
 
 secrets {
@@ -88,7 +94,11 @@ dependencies {
     implementation(libs.play.services.maps)
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
+    implementation(libs.firebase.auth)
     testImplementation(libs.junit)
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    testImplementation("org.mockito:mockito-core:3.11.2")
+    testImplementation("org.mockito:mockito-inline:3.11.2")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
@@ -97,4 +107,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("com.auth0.android:auth0:2.9.2")
     implementation("com.auth0.android:jwtdecode:2.+")
+    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.code.gson:gson:2.11.0")
 }
