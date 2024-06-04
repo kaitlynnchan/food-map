@@ -90,11 +90,17 @@ public final class LoginActivity extends AppCompatActivity {
 
     private void saveUser(User user){
         // save user locally to shared preferences
+//        SharedPreferences sharedPreferences = this.getSharedPreferences("SHARED_PREFS_USER", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        Gson gson = new Gson();
+//        String json = gson.toJson(user);
+//        editor.putString("EDITOR_USER", json);
+//        editor.apply();
+
+        // save user ID locally to shared preferences
         SharedPreferences sharedPreferences = this.getSharedPreferences("SHARED_PREFS_USER", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(user);
-        editor.putString("EDITOR_USER", json);
+        editor.putString("EDITOR_USER_ID", user.getId());
         editor.apply();
 
         // upload user to firestore

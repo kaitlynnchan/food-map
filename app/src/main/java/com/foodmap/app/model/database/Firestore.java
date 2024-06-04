@@ -31,10 +31,6 @@ public class Firestore {
     public Firestore(String userID){
         this.userID = userID;
         db = FirebaseFirestore.getInstance();
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setPersistenceEnabled(true)
-                .build();
-        db.setFirestoreSettings(settings);
     }
 
     public Firestore(String userID, FirebaseFirestore db){
@@ -76,40 +72,40 @@ public class Firestore {
         return user;
     }
 
-    public void addList(List list){
-        Map<String, Object> listData = new HashMap<>();
-        listData.put("listID", list.getListId());
-        listData.put("name", list.getName());
-        listData.put("description", list.getDescription());
-        listData.put("color", list.getColor());
+//    public void addList(List list){
+//        Map<String, Object> listData = new HashMap<>();
+//        listData.put("listID", list.getListId());
+//        listData.put("name", list.getName());
+//        listData.put("description", list.getDescription());
+//        listData.put("color", list.getColor());
+//
+//        db.collection("users")
+//                .document(userID)
+//                .collection("lists")
+//                .document(list.getListId())
+//                .set(listData);
+//    }
 
-        db.collection("users")
-                .document(userID)
-                .collection("lists")
-                .document(list.getListId())
-                .set(listData);
-    }
-
-    public ListsManager getListCollection(){
-        ListsManager lists = new ListsManager();
-        db.collection("users")
-                .document(userID)
-                .collection("lists")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-        return lists;
-    }
+//    public ListsManager getListCollection(){
+//        ListsManager lists = new ListsManager();
+//        db.collection("users")
+//                .document(userID)
+//                .collection("lists")
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Log.d(TAG, document.getId() + " => " + document.getData());
+//                            }
+//                        } else {
+//                            Log.d(TAG, "Error getting documents: ", task.getException());
+//                        }
+//                    }
+//                });
+//        return lists;
+//    }
 
     public void addPin(String listID, PinnedLocation location){
         db.collection("users")
@@ -131,28 +127,28 @@ public class Firestore {
                     }
                 });
     }
-
-    public ListsManager getListPinCollection(String listID){
-        ListsManager lists = new ListsManager();
-        db.collection("users")
-                .document(userID)
-                .collection("lists")
-                .document(listID)
-                .collection("pins")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-        return lists;
-    }
+//
+//    public ListsManager getListPinCollection(String listID){
+//        ListsManager lists = new ListsManager();
+//        db.collection("users")
+//                .document(userID)
+//                .collection("lists")
+//                .document(listID)
+//                .collection("pins")
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Log.d(TAG, document.getId() + " => " + document.getData());
+//                            }
+//                        } else {
+//                            Log.d(TAG, "Error getting documents: ", task.getException());
+//                        }
+//                    }
+//                });
+//        return lists;
+//    }
 
 }

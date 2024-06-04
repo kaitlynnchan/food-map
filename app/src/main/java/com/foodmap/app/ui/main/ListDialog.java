@@ -18,6 +18,8 @@ import android.widget.TableRow;
 
 import com.foodmap.app.R;
 import com.foodmap.app.model.List;
+import com.foodmap.app.model.ListsManager;
+import com.foodmap.app.ui.MainActivity;
 
 import java.util.ArrayList;
 
@@ -31,7 +33,7 @@ public class ListDialog extends DialogFragment {
 
     private int selectedColor;
     private ArrayList<Button> buttons;
-
+    private ListsManager listsManager;
 
     public ListDialog() {
         // Required empty public constructor
@@ -56,6 +58,7 @@ public class ListDialog extends DialogFragment {
         super.onCreate(savedInstanceState);
         selectedColor = 0;
         buttons = new ArrayList<>();
+        listsManager = ListsManager.getInstance();
     }
 
     @Override
@@ -115,7 +118,8 @@ public class ListDialog extends DialogFragment {
                 String description = descriptionEditText.getText().toString();
 
                 // create List object and send to main
-                List newList = new List(listName, description, selectedColor);
+//                MainActivity.addList(new List(listName, description, selectedColor));
+                getDialog().dismiss();
 
             }
         });
