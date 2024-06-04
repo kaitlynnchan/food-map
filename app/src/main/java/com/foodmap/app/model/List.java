@@ -5,20 +5,16 @@ import java.util.UUID;
 
 public class List {
 
-    enum COLOR {
-        RED, ORANGE, YELLOW, GREEN, BLUE
-    }
-
     private final String listId = UUID.randomUUID().toString();
     private String name;
     private String description;
-    private COLOR color;
+    private int colorIndex;
     private ArrayList<PinnedLocation> pins;
 
-    public List(String name, String description, COLOR color) {
+    public List(String name, String description, int colorIndex) {
         this.name = name;
         this.description = description;
-        this.color = color;
+        this.colorIndex = colorIndex;
 
         pins = new ArrayList<>();
     }
@@ -43,12 +39,12 @@ public class List {
         this.description = description;
     }
 
-    public COLOR getColor() {
-        return color;
+    public int getColorIndex() {
+        return colorIndex;
     }
 
-    public void setColor(COLOR color) {
-        this.color = color;
+    public void setColor(int colorIndex) {
+        this.colorIndex = colorIndex;
     }
 
     public ArrayList<PinnedLocation> getPins() {

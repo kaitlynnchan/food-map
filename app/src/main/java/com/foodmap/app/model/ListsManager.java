@@ -10,6 +10,10 @@ public class ListsManager {
         this.lists = new ArrayList<>();
 
         // Add Default list
-        this.lists.add(new List("Favorites", "", List.COLOR.RED));
+        this.lists.add(new List("Favorites", "", 0));
+    }
+
+    public void addList(List list){
+        lists.add(list);
     }
 }

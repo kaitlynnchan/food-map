@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentManager;
 import com.foodmap.app.databinding.ActivityMainBinding;
 
 import com.foodmap.app.R;
+import com.foodmap.app.model.List;
+import com.foodmap.app.model.ListsManager;
 import com.foodmap.app.ui.main.ListDialog;
 import com.foodmap.app.ui.main.ListFragment;
 import com.foodmap.app.ui.main.MapsFragment;
@@ -18,6 +20,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    private ListsManager listsManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        listsManager = new ListsManager();
 
         // connect bottom navigation
         MapsFragment mapsFragment = new MapsFragment();
@@ -63,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
                 listDialog.show(manager, "");
             }
         });
+    }
+
+    public static void addList(List list){
     }
 
 }
