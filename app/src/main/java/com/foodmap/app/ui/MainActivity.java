@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     public ListsManager listsManager;
     private User user;
+    public static Firestore firestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +35,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         listsManager = ListsManager.getInstance();
-        user = loadUser();
+        user = new User();
+        loadUser();
 
         // connect bottom navigation
         MapsFragment mapsFragment = new MapsFragment();
@@ -75,13 +77,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private User loadUser(){
+    private void loadUser(){
         SharedPreferences sharedPreferences = this.getSharedPreferences("SHARED_PREFS_USER", MODE_PRIVATE);
         String userID = sharedPreferences.getString("EDITOR_USER_ID", "");
 
-        Firestore firestore = new Firestore(userID);
-        return firestore.getUserCollection();
+        firestore = new Firestore(userID);
+        firestore.getUserCollection(user);
     }
-
 
 }

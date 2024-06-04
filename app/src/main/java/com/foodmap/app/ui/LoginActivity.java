@@ -13,6 +13,7 @@ import com.auth0.android.callback.Callback;
 import com.auth0.android.result.Credentials;
 import com.foodmap.app.databinding.ActivityLoginBinding;
 import com.foodmap.app.model.Auth0Manager;
+import com.foodmap.app.model.List;
 import com.foodmap.app.model.User;
 import com.foodmap.app.model.database.Firestore;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -105,6 +106,14 @@ public final class LoginActivity extends AppCompatActivity {
 
         // upload user to firestore
         Firestore firestore = new Firestore(user.getId());
-        firestore.addNewUserCollection(user);
+        firestore.doesUserExist(new Firestore.FirestoreCallback() {
+            @Override
+            public void isUserExist(boolean exist) {
+                if(!exist){
+                    firestore.addNewUserCollection(user);
+                    firestore.addList(new List("Favorites", "", 0));
+                }
+            }
+        });
     }
 }

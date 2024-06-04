@@ -21,7 +21,4 @@ public class ListsManager {
         return instance;
     }
 
-    public void addList(List list){
-        lists.add(list);
-    }
 }

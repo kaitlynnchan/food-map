@@ -28,6 +28,10 @@ public class Firestore {
     private FirebaseFirestore db;
     private String userID;
 
+    public interface FirestoreCallback {
+        void isUserExist(boolean exist);
+    }
+
     public Firestore(String userID){
         this.userID = userID;
         db = FirebaseFirestore.getInstance();
@@ -57,8 +61,7 @@ public class Firestore {
                 });
     }
 
-    public User getUserCollection(){
-        User user = null;
+    public void getUserCollection(User user){
         db.collection("users")
                 .document(userID)
                 .get()
@@ -69,22 +72,39 @@ public class Firestore {
                         user.setUser(userData);
                     }
                 });
-        return user;
     }
 
-//    public void addList(List list){
-//        Map<String, Object> listData = new HashMap<>();
-//        listData.put("listID", list.getListId());
-//        listData.put("name", list.getName());
-//        listData.put("description", list.getDescription());
-//        listData.put("color", list.getColor());
-//
-//        db.collection("users")
-//                .document(userID)
-//                .collection("lists")
+    public void doesUserExist(FirestoreCallback callback){
+        db.collection("users")
+                .document(userID)
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()){
+                            callback.isUserExist(true);
+                        }else{
+                            callback.isUserExist(false);
+                        }
+                    }
+                });
+    }
+
+    public void addList(List list){
+        Map<String, Object> listData = new HashMap<>();
+        listData.put("listID", list.getListId());
+        listData.put("name", list.getName());
+        listData.put("description", list.getDescription());
+        listData.put("color", list.getColorIndex());
+
+        db.collection("users")
+                .document(userID)
+                .collection("lists")
+                .document(list.getListId())
+                .set(listData);
+//        db.collection("users/" + userID + "/lists")
 //                .document(list.getListId())
 //                .set(listData);
-//    }
+    }
 
 //    public ListsManager getListCollection(){
 //        ListsManager lists = new ListsManager();

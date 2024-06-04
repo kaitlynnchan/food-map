@@ -111,14 +111,20 @@ public class ListDialog extends DialogFragment {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText listNameEditText = v.findViewById(R.id.listNameEditText);
+                EditText listNameEditText = view.findViewById(R.id.listNameEditText);
                 String listName = listNameEditText.getText().toString();
+                if(listName.isEmpty()){
+                    listName = "New List";
+                }
 
-                EditText descriptionEditText = v.findViewById(R.id.descriptionEditText);
+                EditText descriptionEditText = view.findViewById(R.id.descriptionEditText);
                 String description = descriptionEditText.getText().toString();
+                if(description.isEmpty()){
+                    description = "";
+                }
 
                 // create List object and send to main
-//                MainActivity.addList(new List(listName, description, selectedColor));
+                MainActivity.firestore.addList(new List(listName, description, selectedColor));
                 getDialog().dismiss();
 
             }
