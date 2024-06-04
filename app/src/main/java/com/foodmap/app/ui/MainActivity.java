@@ -1,15 +1,19 @@
 package com.foodmap.app.ui;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.foodmap.app.databinding.ActivityMainBinding;
 
 import com.foodmap.app.R;
+import com.foodmap.app.ui.main.ListDialog;
 import com.foodmap.app.ui.main.ListFragment;
 import com.foodmap.app.ui.main.MapsFragment;
 import com.foodmap.app.ui.main.ProfileFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,6 +53,15 @@ public class MainActivity extends AppCompatActivity {
                     return true;
             }
             return false;
+        });
+
+        binding.addFloatingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getSupportFragmentManager();
+                ListDialog listDialog = new ListDialog();
+                listDialog.show(manager, "");
+            }
         });
     }
 
