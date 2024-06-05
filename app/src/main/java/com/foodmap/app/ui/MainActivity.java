@@ -1,19 +1,31 @@
 package com.foodmap.app.ui;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.foodmap.app.databinding.ActivityMainBinding;
 
 import com.foodmap.app.R;
+import com.foodmap.app.model.List;
+import com.foodmap.app.model.ListsManager;
+import com.foodmap.app.model.User;
+import com.foodmap.app.model.database.Firestore;
+import com.foodmap.app.ui.main.ListDialog;
 import com.foodmap.app.ui.main.ListFragment;
 import com.foodmap.app.ui.main.MapsFragment;
 import com.foodmap.app.ui.main.ProfileFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    public ListsManager listsManager;
+    private User user;
+    public static Firestore firestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        listsManager = ListsManager.getInstance();
+        user = new User();
+        loadUser();
 
         // connect bottom navigation
         MapsFragment mapsFragment = new MapsFragment();
@@ -50,6 +66,23 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         });
+
+        binding.addFloatingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getSupportFragmentManager();
+                ListDialog listDialog = new ListDialog();
+                listDialog.show(manager, "");
+            }
+        });
+    }
+
+    private void loadUser(){
+        SharedPreferences sharedPreferences = this.getSharedPreferences("SHARED_PREFS_USER", MODE_PRIVATE);
+        String userID = sharedPreferences.getString("EDITOR_USER_ID", "");
+
+        firestore = new Firestore(userID);
+        firestore.getUserCollection(user);
     }
 
 }

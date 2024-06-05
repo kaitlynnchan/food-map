@@ -4,12 +4,45 @@ import java.util.ArrayList;
 
 public class ListsManager {
 
-    private ArrayList<List> lists;
+    private ArrayList<List> lists = new ArrayList<>();
 
-    public ListsManager() {
-        this.lists = new ArrayList<>();
-
-        // Add Default list
-        this.lists.add(new List("Favorites", "", List.COLOR.RED));
+    // Singleton implementation
+    private static ListsManager instance;
+    private ListsManager() {}
+    public static ListsManager getInstance() {
+        if(instance == null){
+            instance = new ListsManager();
+        }
+        return instance;
     }
+
+    public void addList(List list){
+        lists.add(list);
+    }
+
+    public List getList(int index){
+        return lists.get(index);
+    }
+
+    public void configureList(List newList){
+        int index = getIndexOfList(newList);
+        if(index < 0){
+            addList(newList);
+        } else {
+            setList(index, newList);
+        }
+    }
+
+    public int getIndexOfList(List list){
+        return lists.indexOf(list);
+    }
+
+    public void setList(int index, List list){
+        lists.set(index, list);
+    }
+
+    public int getSize(){
+        return lists.size();
+    }
+
 }

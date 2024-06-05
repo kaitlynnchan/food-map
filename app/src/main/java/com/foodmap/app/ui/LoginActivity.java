@@ -13,6 +13,7 @@ import com.auth0.android.callback.Callback;
 import com.auth0.android.result.Credentials;
 import com.foodmap.app.databinding.ActivityLoginBinding;
 import com.foodmap.app.model.Auth0Manager;
+import com.foodmap.app.model.List;
 import com.foodmap.app.model.User;
 import com.foodmap.app.model.database.Firestore;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -89,16 +90,22 @@ public final class LoginActivity extends AppCompatActivity {
 //    }
 
     private void saveUser(User user){
-        // save user locally to shared preferences
+        // save user ID locally to shared preferences
         SharedPreferences sharedPreferences = this.getSharedPreferences("SHARED_PREFS_USER", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(user);
-        editor.putString("EDITOR_USER", json);
+        editor.putString("EDITOR_USER_ID", user.getId());
         editor.apply();
 
         // upload user to firestore
         Firestore firestore = new Firestore(user.getId());
-        firestore.addNewUserCollection(user);
+        firestore.doesUserExist(new Firestore.FirestoreCallback() {
+            @Override
+            public void isUserExist(boolean exist) {
+                if(!exist){
+                    firestore.addNewUserCollection(user);
+                    firestore.addList(List.defaultList);
+                }
+            }
+        });
     }
 }

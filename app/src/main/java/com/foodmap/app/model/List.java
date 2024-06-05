@@ -1,26 +1,44 @@
 package com.foodmap.app.model;
 
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.UUID;
 
 public class List {
 
-    enum COLOR {
-        RED, ORANGE, YELLOW, GREEN, BLUE
-    }
+    public static List defaultList = new List("Favorites", "", 0);
 
-    private final String listId = UUID.randomUUID().toString();
+    private String listId;
     private String name;
     private String description;
-    private COLOR color;
+    private int colorIndex;
     private ArrayList<PinnedLocation> pins;
 
-    public List(String name, String description, COLOR color) {
+    public List(String name, String description, int colorIndex) {
+        this.listId = UUID.randomUUID().toString();
         this.name = name;
         this.description = description;
-        this.color = color;
+        this.colorIndex = colorIndex;
 
         pins = new ArrayList<>();
+    }
+
+    public List(String listId, String name, String description, int colorIndex) {
+        this.listId = listId;
+        this.name = name;
+        this.description = description;
+        this.colorIndex = colorIndex;
+
+        pins = new ArrayList<>();
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        List listObj = (List) obj;
+        if(listObj == null) return false;
+        return (Objects.equals(listObj.listId, this.listId));
     }
 
     public String getListId() {
@@ -43,12 +61,12 @@ public class List {
         this.description = description;
     }
 
-    public COLOR getColor() {
-        return color;
+    public int getColorIndex() {
+        return colorIndex;
     }
 
-    public void setColor(COLOR color) {
-        this.color = color;
+    public void setColor(int colorIndex) {
+        this.colorIndex = colorIndex;
     }
 
     public ArrayList<PinnedLocation> getPins() {

@@ -6,6 +6,8 @@ public class User {
     private String email;
     private String profilePic;
 
+    public User() {}
+
     public User(String id, String email, String profilePic) {
         this.id = id;
         this.email = email;

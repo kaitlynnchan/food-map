@@ -8,16 +8,16 @@
     android:padding="10dp">
 
     <TextView
-        android:id="@+id/descriptionText"
+        android:id="@+id/listDescriptionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/place_details"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/listName"
-        app:layout_constraintTop_toBottomOf="@+id/listName" />
+        app:layout_constraintStart_toStartOf="@+id/listNameText"
+        app:layout_constraintTop_toBottomOf="@+id/listNameText" />
 
     <TextView
-        android:id="@+id/listName"
+        android:id="@+id/listNameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/place_name"
