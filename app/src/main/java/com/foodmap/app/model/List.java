@@ -1,9 +1,14 @@
 package com.foodmap.app.model;
 
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.UUID;
 
 public class List {
+
+    public static List defaultList = new List("Favorites", "", 0);
 
     private String listId;
     private String name;
@@ -27,6 +32,13 @@ public class List {
         this.colorIndex = colorIndex;
 
         pins = new ArrayList<>();
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        List listObj = (List) obj;
+        if(listObj == null) return false;
+        return (Objects.equals(listObj.listId, this.listId));
     }
 
     public String getListId() {

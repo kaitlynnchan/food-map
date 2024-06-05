@@ -24,6 +24,23 @@ public class ListsManager {
         return lists.get(index);
     }
 
+    public void configureList(List newList){
+        int index = getIndexOfList(newList);
+        if(index < 0){
+            addList(newList);
+        } else {
+            setList(index, newList);
+        }
+    }
+
+    public int getIndexOfList(List list){
+        return lists.indexOf(list);
+    }
+
+    public void setList(int index, List list){
+        lists.set(index, list);
+    }
+
     public int getSize(){
         return lists.size();
     }

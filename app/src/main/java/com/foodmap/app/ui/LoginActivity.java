@@ -90,14 +90,6 @@ public final class LoginActivity extends AppCompatActivity {
 //    }
 
     private void saveUser(User user){
-        // save user locally to shared preferences
-//        SharedPreferences sharedPreferences = this.getSharedPreferences("SHARED_PREFS_USER", MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        Gson gson = new Gson();
-//        String json = gson.toJson(user);
-//        editor.putString("EDITOR_USER", json);
-//        editor.apply();
-
         // save user ID locally to shared preferences
         SharedPreferences sharedPreferences = this.getSharedPreferences("SHARED_PREFS_USER", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -111,7 +103,7 @@ public final class LoginActivity extends AppCompatActivity {
             public void isUserExist(boolean exist) {
                 if(!exist){
                     firestore.addNewUserCollection(user);
-                    firestore.addList(new List("Favorites", "", 0));
+                    firestore.addList(List.defaultList);
                 }
             }
         });

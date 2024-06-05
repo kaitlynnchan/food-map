@@ -97,7 +97,7 @@ public class ListDialog extends DialogFragment {
                 }
             });
             if(selectedColor == i){
-                button.setForeground(getResources().getDrawable(R.drawable.round_button_background2));
+                button.setForeground(getResources().getDrawable(R.drawable.round_button_border));
                 button.setSelected(true);
             }
 
@@ -124,7 +124,6 @@ public class ListDialog extends DialogFragment {
                 // create List object and send to main
                 MainActivity.firestore.addList(new List(listName, description, selectedColor));
                 getDialog().dismiss();
-
             }
         });
         return view;
@@ -133,7 +132,7 @@ public class ListDialog extends DialogFragment {
     private void updateButtons(){
         for(int i = 0; i < buttons.size(); i++){
             if(selectedColor == i){
-                buttons.get(i).setForeground(getResources().getDrawable(R.drawable.round_button_background2));
+                buttons.get(i).setForeground(getResources().getDrawable(R.drawable.round_button_border));
                 buttons.get(i).setSelected(true);
             } else{
                 buttons.get(i).setForeground(null);

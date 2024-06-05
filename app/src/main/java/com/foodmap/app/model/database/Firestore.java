@@ -115,7 +115,7 @@ public class Firestore {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 Map<String, Object> data = document.getData();
-                                lists.addList(new List(
+                                lists.configureList(new List(
                                         data.get("listID").toString(),
                                         data.get("name").toString(),
                                         data.get("description").toString(),

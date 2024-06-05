@@ -44,7 +44,6 @@ public class ListFragment extends Fragment {
         RecyclerView recyclerView = binding.listRecyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(listAdapter);
-
     }
 
     @Override
