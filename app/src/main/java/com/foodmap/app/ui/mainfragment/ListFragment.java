@@ -12,10 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.foodmap.app.databinding.FragmentListBinding;
 import com.foodmap.app.model.ListsManager;
-import com.foodmap.app.model.database.Firestore;
+import com.foodmap.app.model.database.FirestoreHandler;
 import com.foodmap.app.ui.MainActivity;
 import com.foodmap.app.ui.listview.ListAdapter;
 
+/**
+ * List View Screen
+ * Displays user lists and search bar
+ */
 public class ListFragment extends Fragment {
 
     private FragmentListBinding binding;
@@ -33,7 +37,7 @@ public class ListFragment extends Fragment {
     }
 
     private void updateUI() {
-        listsManager = MainActivity.firestore.getListCollection(new Firestore.FirestoreListCallback() {
+        listsManager = MainActivity.firestore.getListCollection(new FirestoreHandler.FirestoreListCallback() {
             @Override
             public ListsManager getLists(ListsManager lists) {
                 loadLists();

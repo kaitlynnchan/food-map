@@ -23,10 +23,18 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Firestore {
+/**
+ * Firestore Handler Class
+ * Handles calls to Firebase Firestore database.
+ */
+public class FirestoreHandler {
+
     private FirebaseFirestore db;
     private String userID;
 
+    /**
+     * Callback methods
+     */
     public interface FirestoreCallback {
         void isUserExist(boolean exist);
     }
@@ -35,16 +43,22 @@ public class Firestore {
         ListsManager getLists(ListsManager lists);
     }
 
-    public Firestore(String userID){
+    /**
+     * Constructors
+     */
+    public FirestoreHandler(String userID){
         this.userID = userID;
         db = FirebaseFirestore.getInstance();
     }
 
-    public Firestore(String userID, FirebaseFirestore db){
+    public FirestoreHandler(String userID, FirebaseFirestore db){
         this.userID = userID;
         this.db = db;
     }
 
+    /**
+     * Get/modify user data from firestore
+     */
     public void addNewUserCollection(User user){
         // Add a new document with a auth0 ID
         db.collection("users")
@@ -92,15 +106,18 @@ public class Firestore {
                 });
     }
 
+    /**
+     * Get/modify list data from firestore
+     */
     public void addList(List list){
         Map<String, Object> listData = new HashMap<>();
-        listData.put("listID", list.getListId());
+        listData.put("id", list.getId());
         listData.put("name", list.getName());
         listData.put("description", list.getDescription());
         listData.put("color", list.getColorIndex());
 
         db.collection("users/" + userID + "/lists")
-                .document(list.getListId())
+                .document(list.getId())
                 .set(listData);
     }
 
@@ -116,7 +133,7 @@ public class Firestore {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 Map<String, Object> data = document.getData();
                                 lists.configureList(new List(
-                                        data.get("listID").toString(),
+                                        data.get("id").toString(),
                                         data.get("name").toString(),
                                         data.get("description").toString(),
                                         Integer.parseInt(data.get("color").toString())
@@ -132,11 +149,14 @@ public class Firestore {
         return lists;
     }
 
-    public void addPin(String listID, PinnedLocation location){
+    /**
+     * Get/modify pin data from firestore
+     */
+    public void addPin(String id, PinnedLocation location){
         db.collection("users")
                 .document(userID)
                 .collection("lists")
-                .document(listID)
+                .document(id)
                 .collection("pins")
                 .add(location)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -153,12 +173,12 @@ public class Firestore {
                 });
     }
 //
-//    public ListsManager getListPinCollection(String listID){
+//    public ListsManager getListPinCollection(String id){
 //        ListsManager lists = new ListsManager();
 //        db.collection("users")
 //                .document(userID)
 //                .collection("lists")
-//                .document(listID)
+//                .document(id)
 //                .collection("pins")
 //                .get()
 //                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

@@ -5,7 +5,6 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,29 +21,22 @@ import com.foodmap.app.ui.MainActivity;
 
 import java.util.ArrayList;
 
-
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link ListDialog#newInstance} factory method to
- * create an instance of this fragment.
+ * List Dialog
+ * Users can create new lists and specify name, color,
+ * and description.
  */
 public class ListDialog extends DialogFragment {
 
-    private int selectedColor;
+    private int selectedColor = 0;
     private ArrayList<Button> buttons;
     private ListsManager listsManager;
 
     public ListDialog() {
-        // Required empty public constructor
+        buttons = new ArrayList<>();
+        listsManager = ListsManager.getInstance();
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment ListDialog.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ListDialog newInstance() {
         ListDialog fragment = new ListDialog();
         Bundle args = new Bundle();
@@ -55,9 +47,6 @@ public class ListDialog extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        selectedColor = 0;
-        buttons = new ArrayList<>();
-        listsManager = ListsManager.getInstance();
     }
 
     @Override
@@ -66,44 +55,7 @@ public class ListDialog extends DialogFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.dialog_list, container, false);
 
-        // Color Options Table
-        TableLayout colorOptionsTable = view.findViewById(R.id.colorOptionsTable);
-        // Color Table Row
-        TableRow colorTableRow = new TableRow(view.getContext());
-        colorTableRow.setLayoutParams(new TableLayout.LayoutParams(
-                TableLayout.LayoutParams.MATCH_PARENT,
-                TableLayout.LayoutParams.MATCH_PARENT,
-                1.0f ));
-        colorTableRow.setPadding(16, 16, 16, 16);
-        colorOptionsTable.addView(colorTableRow);
-
-        // Get color options from resource
-        TypedArray colorOptions = view.getResources().obtainTypedArray(R.array.color_option_array);
-        for(int i = 0; i < colorOptions.length(); i++){
-            // Create button for each color and set params
-            Button button = new Button(view.getContext());
-            TableRow.LayoutParams params = new TableRow.LayoutParams(100,100,1.0f);
-            params.setMarginEnd(20);
-            button.setLayoutParams(params);
-            button.setBackgroundResource(R.drawable.round_button_background);
-            button.getBackground().setColorFilter(colorOptions.getColor(i, 0), PorterDuff.Mode.SRC_IN);
-            button.setBackgroundTintMode(null);
-            final int index = i;
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    selectedColor = index;
-                    updateButtons();
-                }
-            });
-            if(selectedColor == i){
-                button.setForeground(getResources().getDrawable(R.drawable.round_button_border));
-                button.setSelected(true);
-            }
-
-            colorTableRow.addView(button);
-            buttons.add(button);
-        }
+        loadColorOptions(view);
 
         Button saveBtn = view.findViewById(R.id.saveButton);
         saveBtn.setOnClickListener(new View.OnClickListener() {
@@ -129,15 +81,64 @@ public class ListDialog extends DialogFragment {
         return view;
     }
 
+    private void loadColorOptions(View view) {
+        // Color Options Table
+        TableLayout colorOptionsTable = view.findViewById(R.id.colorOptionsTable);
+        // Color Table Row
+        TableRow colorTableRow = new TableRow(view.getContext());
+        colorTableRow.setLayoutParams(new TableLayout.LayoutParams(
+                TableLayout.LayoutParams.MATCH_PARENT,
+                TableLayout.LayoutParams.MATCH_PARENT,
+                1.0f ));
+        colorTableRow.setPadding(16, 16, 16, 16);
+        colorOptionsTable.addView(colorTableRow);
+
+        // Get color options from resource
+        TypedArray colorOptions = view.getResources().obtainTypedArray(R.array.color_option_array);
+        for(int i = 0; i < colorOptions.length(); i++){
+            // Create button for each color and set params
+            Button button = new Button(view.getContext());
+            TableRow.LayoutParams params = new TableRow.LayoutParams(100,100,1.0f);
+            params.setMarginEnd(20);
+            button.setLayoutParams(params);
+            button.setBackgroundResource(R.drawable.round_button_background);
+            button.getBackground().setColorFilter(colorOptions.getColor(i, 0), PorterDuff.Mode.SRC_IN);
+            button.setBackgroundTintMode(null);
+
+            final int index = i;
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectedColor = index;
+                    updateButtons();
+                }
+            });
+            if(selectedColor == i){
+                setButtonSelected(button);
+            }
+
+            colorTableRow.addView(button);
+            buttons.add(button);
+        }
+    }
+
     private void updateButtons(){
         for(int i = 0; i < buttons.size(); i++){
             if(selectedColor == i){
-                buttons.get(i).setForeground(getResources().getDrawable(R.drawable.round_button_border));
-                buttons.get(i).setSelected(true);
+                setButtonSelected(buttons.get(i));
             } else{
-                buttons.get(i).setForeground(null);
-                buttons.get(i).setSelected(false);
+                setButtonUnselected(buttons.get(i));
             }
         }
+    }
+
+    private void setButtonSelected(Button button) {
+        button.setForeground(getResources().getDrawable(R.drawable.round_button_border));
+        button.setSelected(true);
+    }
+
+    private void setButtonUnselected(Button button) {
+        button.setForeground(null);
+        button.setSelected(false);
     }
 }

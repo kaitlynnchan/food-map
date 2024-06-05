@@ -1,5 +1,10 @@
 package com.foodmap.app.model;
 
+/**
+ * User Class
+ * Stores information about a user including:
+ *  id, email, profilepic
+ */
 public class User {
 
     private String id;

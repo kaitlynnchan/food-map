@@ -11,6 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.foodmap.app.R;
 
+/**
+ * Recycler View List View Holder
+ * Setup view of list item
+ */
 public class ListViewHolder extends RecyclerView.ViewHolder {
 
     private TextView listName;

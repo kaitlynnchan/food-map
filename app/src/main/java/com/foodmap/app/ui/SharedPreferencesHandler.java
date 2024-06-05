@@ -7,7 +7,11 @@ import android.content.SharedPreferences;
 
 import com.foodmap.app.model.User;
 
-public class SharedPreferencesHelper {
+/**
+ * Shared Preferences Handler
+ * Handles shared preferences calls
+ */
+public class SharedPreferencesHandler {
     public static final String PREFS_USER = "SHARED_PREFS_USER";
     public static final String KEY_USER_ID = "KEY_USER_ID";
 

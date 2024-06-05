@@ -9,6 +9,10 @@ import com.auth0.android.provider.WebAuthProvider;
 import com.auth0.android.result.Credentials;
 import com.foodmap.app.R;
 
+/**
+ * Auth0 Manager Class
+ * Handles calls to auth0.
+ */
 public class Auth0Manager {
 
     private Auth0 account;

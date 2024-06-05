@@ -14,11 +14,14 @@ import com.foodmap.app.databinding.ActivityLoginBinding;
 import com.foodmap.app.model.auth.Auth0Manager;
 import com.foodmap.app.model.List;
 import com.foodmap.app.model.User;
-import com.foodmap.app.model.database.Firestore;
+import com.foodmap.app.model.database.FirestoreHandler;
 
 import org.jetbrains.annotations.Nullable;
 
-
+/**
+ * Login Screen
+ * Connect to auth0 webpage and allows users to login.
+ */
 public final class LoginActivity extends AppCompatActivity {
 
     private ActivityLoginBinding binding;
@@ -29,6 +32,7 @@ public final class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // instantiate variables
         auth0Manager = new Auth0Manager(this);
 
         binding.startButton.setOnClickListener(v -> {
@@ -37,15 +41,15 @@ public final class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(Credentials credentials) {
                     System.out.println("Authentication with Auth0 successful");
+
                     // TODO: authenticate user with Firebase
 
                     // create user with credentials
-                    User user = new User(
+                    saveUser(new User(
                             credentials.getUser().getId(),
                             credentials.getUser().getEmail(),
                             credentials.getUser().getPictureURL()
-                    );
-                    saveUser(user);
+                    ));
 
                     // open main activity
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -63,31 +67,17 @@ public final class LoginActivity extends AppCompatActivity {
         });
     }
 
-//    private void signInWithFirebase(String idToken) {
-//        firebaseAuth.signInWithCustomToken(idToken)
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if (task.isSuccessful()) {
-//                            FirebaseUser user = firebaseAuth.getCurrentUser();
-//                            System.out.println("authentication with firebase successful");
-//                        } else {
-//                            System.out.println("authentication with firebase failed");
-//                        }
-//                    }
-//                });
-//    }
-
     private void saveUser(User user){
         // save user ID locally to shared preferences
-        SharedPreferencesHelper.saveUser(this, user);
+        SharedPreferencesHandler.saveUser(this, user);
 
         // upload user to firestore
-        Firestore firestore = new Firestore(user.getId());
-        firestore.doesUserExist(new Firestore.FirestoreCallback() {
+        FirestoreHandler firestore = new FirestoreHandler(user.getId());
+        firestore.doesUserExist(new FirestoreHandler.FirestoreCallback() {
             @Override
             public void isUserExist(boolean exist) {
                 if(!exist){
+                    // upload if user does not exist
                     firestore.addNewUserCollection(user);
                     firestore.addList(List.defaultList);
                 }
