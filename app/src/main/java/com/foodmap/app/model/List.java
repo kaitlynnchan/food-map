@@ -5,13 +5,23 @@ import java.util.UUID;
 
 public class List {
 
-    private final String listId = UUID.randomUUID().toString();
+    private String listId;
     private String name;
     private String description;
     private int colorIndex;
     private ArrayList<PinnedLocation> pins;
 
     public List(String name, String description, int colorIndex) {
+        this.listId = UUID.randomUUID().toString();
+        this.name = name;
+        this.description = description;
+        this.colorIndex = colorIndex;
+
+        pins = new ArrayList<>();
+    }
+
+    public List(String listId, String name, String description, int colorIndex) {
+        this.listId = listId;
         this.name = name;
         this.description = description;
         this.colorIndex = colorIndex;

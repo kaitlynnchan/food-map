@@ -16,7 +16,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -30,6 +29,10 @@ public class Firestore {
 
     public interface FirestoreCallback {
         void isUserExist(boolean exist);
+    }
+
+    public interface FirestoreListCallback {
+        ListsManager getLists(ListsManager lists);
     }
 
     public Firestore(String userID){
@@ -96,36 +99,38 @@ public class Firestore {
         listData.put("description", list.getDescription());
         listData.put("color", list.getColorIndex());
 
-        db.collection("users")
-                .document(userID)
-                .collection("lists")
+        db.collection("users/" + userID + "/lists")
                 .document(list.getListId())
                 .set(listData);
-//        db.collection("users/" + userID + "/lists")
-//                .document(list.getListId())
-//                .set(listData);
     }
 
-//    public ListsManager getListCollection(){
-//        ListsManager lists = new ListsManager();
-//        db.collection("users")
-//                .document(userID)
-//                .collection("lists")
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                Log.d(TAG, document.getId() + " => " + document.getData());
-//                            }
-//                        } else {
-//                            Log.d(TAG, "Error getting documents: ", task.getException());
-//                        }
-//                    }
-//                });
-//        return lists;
-//    }
+    public ListsManager getListCollection(FirestoreListCallback callback){
+        ListsManager lists = ListsManager.getInstance();
+        db.collection("users/" + userID + "/lists")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                Map<String, Object> data = document.getData();
+                                lists.addList(new List(
+                                        data.get("listID").toString(),
+                                        data.get("name").toString(),
+                                        data.get("description").toString(),
+                                        Integer.parseInt(data.get("color").toString())
+                                ));
+                            }
+                            callback.getLists(lists);
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                            callback.getLists(null);
+                        }
+                    }
+                });
+        return lists;
+    }
 
     public void addPin(String listID, PinnedLocation location){
         db.collection("users")

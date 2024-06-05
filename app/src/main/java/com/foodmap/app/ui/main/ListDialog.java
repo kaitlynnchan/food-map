@@ -2,7 +2,6 @@ package com.foodmap.app.ui.main;
 
 import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
@@ -89,7 +88,6 @@ public class ListDialog extends DialogFragment {
             button.setBackgroundResource(R.drawable.round_button_background);
             button.getBackground().setColorFilter(colorOptions.getColor(i, 0), PorterDuff.Mode.SRC_IN);
             button.setBackgroundTintMode(null);
-//            ((GradientDrawable) button.getBackground()).setColor(colorOptions.getColor(i, 0));
             final int index = i;
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
