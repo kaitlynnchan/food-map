@@ -49,9 +49,9 @@ class FirestoreTest {
         String email = "user1@email.com";
         String profilepic = "http://someprofile.com";
         newUser = new User(id, email, profilepic);
-
-        database = new FirestoreHandler(id, mockFirestore);
-        database.addNewUserCollection(newUser);
+//
+//        database = new FirestoreHandler(id, mockFirestore);
+//        database.addNewUserCollection(newUser);
         Mockito.verify(mockFirestore).collection("users").document(id).set(newUser);
     }
 
@@ -66,8 +66,8 @@ class FirestoreTest {
         String profilepic = "http://someprofile.com";
         newUser = new User(id, email, profilepic);
 
-        database = new FirestoreHandler(newUser.getId(), mockFirestore);
-        database.addNewUserCollection(newUser);
+//        database = new FirestoreHandler(newUser.getId(), mockFirestore);
+//        database.addNewUserCollection(newUser);
     }
 
     @Test

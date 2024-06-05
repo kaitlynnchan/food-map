@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ import com.foodmap.app.model.database.SharedPreferencesManager;
  * user to logout of app session.
  */
 public class ProfileFragment extends Fragment {
+
+    private static final String TAG_LOGOUT = "Log.Logout";
 
     private Auth0Manager auth0Manager;
 
@@ -52,7 +55,7 @@ public class ProfileFragment extends Fragment {
 
                 @Override
                 public void onSuccess(Void result) {
-                    System.out.println("Logout successful");
+                    Log.i(TAG_LOGOUT, "Logout successful");
                     SharedPreferencesManager.clearUserPrefs(getContext());
 
                     // close main activity
@@ -63,7 +66,7 @@ public class ProfileFragment extends Fragment {
 
                 @Override
                 public void onFailure(@NonNull AuthenticationException e) {
-                    System.out.println("Logout failed: " + e.getMessage());
+                    Log.e(TAG_LOGOUT, "Logout failed: " + e.getMessage());
                 }
             });
         });

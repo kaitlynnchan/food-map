@@ -25,8 +25,6 @@ import com.foodmap.app.ui.mainfragment.ProfileFragment;
  */
 public class MainActivity extends AppCompatActivity {
 
-//    public static FirestoreHandler firestore;
-
     private ActivityMainBinding binding;
     private ListsManager listsManager;
     private User user;

@@ -12,8 +12,9 @@ import com.foodmap.app.model.User;
  * Handles shared preferences calls
  */
 public class SharedPreferencesManager {
-    public static final String PREFS_USER = "SHARED_PREFS_USER";
-    public static final String KEY_USER_ID = "KEY_USER_ID";
+
+    private static final String PREFS_USER = "SHARED_PREFS_USER";
+    private static final String KEY_USER_ID = "KEY_USER_ID";
 
     private static SharedPreferences getSharedPrefs(Context context, String prefs){
         return context.getSharedPreferences(prefs, MODE_PRIVATE);

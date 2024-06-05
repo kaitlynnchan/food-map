@@ -1,7 +1,5 @@
 package com.foodmap.app.model.database;
 
-import static android.content.ContentValues.TAG;
-
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -29,6 +27,8 @@ import java.util.Map;
  */
 public class FirestoreHandler {
 
+    private static final String TAG_FIRESTORE = "Log.Firestore";
+
     /**
      * Callback methods
      */
@@ -52,13 +52,13 @@ public class FirestoreHandler {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        // success
+                        Log.i(TAG_FIRESTORE, "Uploaded user to firestore successful");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
+                        Log.e(TAG_FIRESTORE, "Failed uploading to firestore: " + e.getMessage());
                     }
                 });
     }
@@ -71,6 +71,7 @@ public class FirestoreHandler {
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Log.i(TAG_FIRESTORE, "Successfully accessed user");
                         User userData = documentSnapshot.toObject(User.class);
                         user.setUser(userData);
                     }
@@ -119,7 +120,7 @@ public class FirestoreHandler {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                Log.d(TAG_FIRESTORE, document.getId() + " => " + document.getData());
                                 Map<String, Object> data = document.getData();
                                 lists.configureList(new List(
                                         data.get("id").toString(),
@@ -130,7 +131,7 @@ public class FirestoreHandler {
                             }
                             callback.getLists(lists);
                         } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
+                            Log.e(TAG_FIRESTORE, "Error accessing documents: ", task.getException());
                             callback.getLists(null);
                         }
                     }

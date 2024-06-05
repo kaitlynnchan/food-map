@@ -2,6 +2,7 @@ package com.foodmap.app.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,8 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class LoginActivity extends AppCompatActivity {
 
+    private static final String TAG_LOGIN = "Log.Login";
+
     private ActivityLoginBinding binding;
     private Auth0Manager auth0Manager;
 
@@ -41,7 +44,7 @@ public final class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onSuccess(Credentials credentials) {
-                    System.out.println("Authentication with Auth0 successful");
+                    Log.i(TAG_LOGIN, "Authentication with Auth0 successful");
 
                     // TODO: authenticate user with Firebase
 
@@ -60,7 +63,7 @@ public final class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(@NonNull AuthenticationException e) {
-                    System.out.println("Authentication with Auth0 failed");
+                    Log.e(TAG_LOGIN, "Authentication with Auth0 failed: " + e.getMessage());
                     Toast.makeText(LoginActivity.this,
                             "Login failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
