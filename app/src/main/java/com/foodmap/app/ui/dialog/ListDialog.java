@@ -17,7 +17,8 @@ import android.widget.TableRow;
 import com.foodmap.app.R;
 import com.foodmap.app.model.List;
 import com.foodmap.app.model.ListsManager;
-import com.foodmap.app.ui.MainActivity;
+import com.foodmap.app.model.database.FirestoreHandler;
+import com.foodmap.app.model.database.SharedPreferencesManager;
 
 import java.util.ArrayList;
 
@@ -74,7 +75,10 @@ public class ListDialog extends DialogFragment {
                 }
 
                 // create List object and send to main
-                MainActivity.firestore.addList(new List(listName, description, selectedColor));
+                FirestoreHandler.addList(
+                        SharedPreferencesManager.getUserId(view.getContext()),
+                        new List(listName, description, selectedColor)
+                );
                 getDialog().dismiss();
             }
         });

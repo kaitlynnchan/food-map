@@ -13,6 +13,7 @@ import com.foodmap.app.R;
 import com.foodmap.app.model.ListsManager;
 import com.foodmap.app.model.User;
 import com.foodmap.app.model.database.FirestoreHandler;
+import com.foodmap.app.model.database.SharedPreferencesManager;
 import com.foodmap.app.ui.dialog.ListDialog;
 import com.foodmap.app.ui.mainfragment.ListFragment;
 import com.foodmap.app.ui.mainfragment.MapsFragment;
@@ -24,7 +25,7 @@ import com.foodmap.app.ui.mainfragment.ProfileFragment;
  */
 public class MainActivity extends AppCompatActivity {
 
-    public static FirestoreHandler firestore;
+//    public static FirestoreHandler firestore;
 
     private ActivityMainBinding binding;
     private ListsManager listsManager;
@@ -40,7 +41,8 @@ public class MainActivity extends AppCompatActivity {
         // instantiate variables
         listsManager = ListsManager.getInstance();
         user = new User();
-        loadUser();
+        // load user
+        FirestoreHandler.getUserCollection(SharedPreferencesManager.getUserId(this), user);
         // connect bottom navigation
         currentFragment = R.layout.fragment_maps;
         loadBottomNavigation();
@@ -53,12 +55,6 @@ public class MainActivity extends AppCompatActivity {
                 listDialog.show(manager, "");
             }
         });
-    }
-
-    private void loadUser(){
-        String userID = SharedPreferencesHandler.getUserId(this);
-        firestore = new FirestoreHandler(userID);
-        firestore.getUserCollection(user);
     }
     
     private void loadBottomNavigation() {

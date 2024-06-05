@@ -16,7 +16,7 @@ import com.auth0.android.callback.Callback;
 import com.foodmap.app.R;
 import com.foodmap.app.model.auth.Auth0Manager;
 import com.foodmap.app.ui.LoginActivity;
-import com.foodmap.app.ui.SharedPreferencesHandler;
+import com.foodmap.app.model.database.SharedPreferencesManager;
 
 /**
  * Profile Screen
@@ -53,7 +53,7 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onSuccess(Void result) {
                     System.out.println("Logout successful");
-                    SharedPreferencesHandler.clearUserPrefs(getContext());
+                    SharedPreferencesManager.clearUserPrefs(getContext());
 
                     // close main activity
                     Intent intent = new Intent(getActivity(), LoginActivity.class);

@@ -15,6 +15,7 @@ import com.foodmap.app.model.auth.Auth0Manager;
 import com.foodmap.app.model.List;
 import com.foodmap.app.model.User;
 import com.foodmap.app.model.database.FirestoreHandler;
+import com.foodmap.app.model.database.SharedPreferencesManager;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -69,17 +70,16 @@ public final class LoginActivity extends AppCompatActivity {
 
     private void saveUser(User user){
         // save user ID locally to shared preferences
-        SharedPreferencesHandler.saveUser(this, user);
+        SharedPreferencesManager.saveUser(this, user);
 
         // upload user to firestore
-        FirestoreHandler firestore = new FirestoreHandler(user.getId());
-        firestore.doesUserExist(new FirestoreHandler.FirestoreCallback() {
+        FirestoreHandler.doesUserExist(user.getId(), new FirestoreHandler.FirestoreCallback() {
             @Override
             public void isUserExist(boolean exist) {
                 if(!exist){
                     // upload if user does not exist
-                    firestore.addNewUserCollection(user);
-                    firestore.addList(List.defaultList);
+                    FirestoreHandler.addNewUserCollection(user);
+                    FirestoreHandler.addList(user.getId(), List.defaultList);
                 }
             }
         });

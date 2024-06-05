@@ -1,4 +1,4 @@
-package com.foodmap.app.ui;
+package com.foodmap.app.model.database;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -11,7 +11,7 @@ import com.foodmap.app.model.User;
  * Shared Preferences Handler
  * Handles shared preferences calls
  */
-public class SharedPreferencesHandler {
+public class SharedPreferencesManager {
     public static final String PREFS_USER = "SHARED_PREFS_USER";
     public static final String KEY_USER_ID = "KEY_USER_ID";
 

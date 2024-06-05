@@ -29,9 +29,6 @@ import java.util.Map;
  */
 public class FirestoreHandler {
 
-    private FirebaseFirestore db;
-    private String userID;
-
     /**
      * Callback methods
      */
@@ -44,25 +41,13 @@ public class FirestoreHandler {
     }
 
     /**
-     * Constructors
-     */
-    public FirestoreHandler(String userID){
-        this.userID = userID;
-        db = FirebaseFirestore.getInstance();
-    }
-
-    public FirestoreHandler(String userID, FirebaseFirestore db){
-        this.userID = userID;
-        this.db = db;
-    }
-
-    /**
      * Get/modify user data from firestore
      */
-    public void addNewUserCollection(User user){
+    public static void addNewUserCollection(User user){
         // Add a new document with a auth0 ID
-        db.collection("users")
-                .document(userID)
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(user.getId())
                 .set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -78,9 +63,10 @@ public class FirestoreHandler {
                 });
     }
 
-    public void getUserCollection(User user){
-        db.collection("users")
-                .document(userID)
+    public static void getUserCollection(String userId, User user){
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(userId)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
@@ -91,9 +77,10 @@ public class FirestoreHandler {
                 });
     }
 
-    public void doesUserExist(FirestoreCallback callback){
-        db.collection("users")
-                .document(userID)
+    public static void doesUserExist(String userId, FirestoreCallback callback){
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(userId)
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -109,21 +96,23 @@ public class FirestoreHandler {
     /**
      * Get/modify list data from firestore
      */
-    public void addList(List list){
+    public static void addList(String userId, List list){
         Map<String, Object> listData = new HashMap<>();
         listData.put("id", list.getId());
         listData.put("name", list.getName());
         listData.put("description", list.getDescription());
         listData.put("color", list.getColorIndex());
 
-        db.collection("users/" + userID + "/lists")
+        FirebaseFirestore.getInstance()
+                .collection("users/" + userId + "/lists")
                 .document(list.getId())
                 .set(listData);
     }
 
-    public ListsManager getListCollection(FirestoreListCallback callback){
+    public static ListsManager getListCollection(String userId, FirestoreListCallback callback){
         ListsManager lists = ListsManager.getInstance();
-        db.collection("users/" + userID + "/lists")
+        FirebaseFirestore.getInstance()
+                .collection("users/" + userId + "/lists")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -152,9 +141,10 @@ public class FirestoreHandler {
     /**
      * Get/modify pin data from firestore
      */
-    public void addPin(String id, PinnedLocation location){
-        db.collection("users")
-                .document(userID)
+    public static void addPin(String id, PinnedLocation location){
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(id)
                 .collection("lists")
                 .document(id)
                 .collection("pins")
@@ -172,7 +162,7 @@ public class FirestoreHandler {
                     }
                 });
     }
-//
+
 //    public ListsManager getListPinCollection(String id){
 //        ListsManager lists = new ListsManager();
 //        db.collection("users")
