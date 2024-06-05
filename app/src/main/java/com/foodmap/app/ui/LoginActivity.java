@@ -1,7 +1,6 @@
 package com.foodmap.app.ui;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -12,20 +11,10 @@ import com.auth0.android.authentication.AuthenticationException;
 import com.auth0.android.callback.Callback;
 import com.auth0.android.result.Credentials;
 import com.foodmap.app.databinding.ActivityLoginBinding;
-import com.foodmap.app.model.Auth0Manager;
+import com.foodmap.app.model.auth.Auth0Manager;
 import com.foodmap.app.model.List;
 import com.foodmap.app.model.User;
 import com.foodmap.app.model.database.Firestore;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.OAuthProvider;
-import com.google.gson.Gson;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -91,10 +80,7 @@ public final class LoginActivity extends AppCompatActivity {
 
     private void saveUser(User user){
         // save user ID locally to shared preferences
-        SharedPreferences sharedPreferences = this.getSharedPreferences("SHARED_PREFS_USER", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("EDITOR_USER_ID", user.getId());
-        editor.apply();
+        SharedPreferencesHelper.saveUser(this, user);
 
         // upload user to firestore
         Firestore firestore = new Firestore(user.getId());

@@ -1,4 +1,4 @@
-package com.foodmap.app.ui.main;
+package com.foodmap.app.ui.listview;
 
 import android.content.Context;
 import android.content.res.TypedArray;

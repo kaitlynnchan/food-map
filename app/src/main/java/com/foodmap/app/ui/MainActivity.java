@@ -1,6 +1,5 @@
 package com.foodmap.app.ui;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
@@ -10,15 +9,13 @@ import androidx.fragment.app.FragmentManager;
 import com.foodmap.app.databinding.ActivityMainBinding;
 
 import com.foodmap.app.R;
-import com.foodmap.app.model.List;
 import com.foodmap.app.model.ListsManager;
 import com.foodmap.app.model.User;
 import com.foodmap.app.model.database.Firestore;
-import com.foodmap.app.ui.main.ListDialog;
-import com.foodmap.app.ui.main.ListFragment;
-import com.foodmap.app.ui.main.MapsFragment;
-import com.foodmap.app.ui.main.ProfileFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.foodmap.app.ui.dialog.ListDialog;
+import com.foodmap.app.ui.mainfragment.ListFragment;
+import com.foodmap.app.ui.mainfragment.MapsFragment;
+import com.foodmap.app.ui.mainfragment.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -78,9 +75,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadUser(){
-        SharedPreferences sharedPreferences = this.getSharedPreferences("SHARED_PREFS_USER", MODE_PRIVATE);
-        String userID = sharedPreferences.getString("EDITOR_USER_ID", "");
-
+        String userID = SharedPreferencesHelper.getUserId(this);
         firestore = new Firestore(userID);
         firestore.getUserCollection(user);
     }

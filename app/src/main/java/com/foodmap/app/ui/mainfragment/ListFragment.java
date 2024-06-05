@@ -1,4 +1,4 @@
-package com.foodmap.app.ui.main;
+package com.foodmap.app.ui.mainfragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +14,7 @@ import com.foodmap.app.databinding.FragmentListBinding;
 import com.foodmap.app.model.ListsManager;
 import com.foodmap.app.model.database.Firestore;
 import com.foodmap.app.ui.MainActivity;
+import com.foodmap.app.ui.listview.ListAdapter;
 
 public class ListFragment extends Fragment {
 
@@ -24,9 +25,14 @@ public class ListFragment extends Fragment {
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-
         binding = FragmentListBinding.inflate(inflater, container, false);
 
+        updateUI();
+
+        return binding.getRoot();
+    }
+
+    private void updateUI() {
         listsManager = MainActivity.firestore.getListCollection(new Firestore.FirestoreListCallback() {
             @Override
             public ListsManager getLists(ListsManager lists) {
@@ -34,8 +40,6 @@ public class ListFragment extends Fragment {
                 return lists;
             }
         });
-
-        return binding.getRoot();
     }
 
     private void loadLists(){

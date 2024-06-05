@@ -1,4 +1,4 @@
-package com.foodmap.app.ui.main;
+package com.foodmap.app.ui.listview;
 
 import android.graphics.PorterDuff;
 import android.view.View;

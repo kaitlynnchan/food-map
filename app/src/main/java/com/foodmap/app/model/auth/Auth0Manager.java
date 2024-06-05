@@ -1,4 +1,4 @@
-package com.foodmap.app.model;
+package com.foodmap.app.model.auth;
 
 import android.content.Context;
 

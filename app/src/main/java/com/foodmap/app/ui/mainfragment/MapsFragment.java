@@ -1,4 +1,4 @@
-package com.foodmap.app.ui.main;
+package com.foodmap.app.ui.mainfragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

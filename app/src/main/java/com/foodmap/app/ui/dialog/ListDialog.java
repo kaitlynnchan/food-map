@@ -1,4 +1,4 @@
-package com.foodmap.app.ui.main;
+package com.foodmap.app.ui.dialog;
 
 import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
