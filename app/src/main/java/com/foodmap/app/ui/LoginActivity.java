@@ -1,8 +1,8 @@
 package com.foodmap.app.ui;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,25 +12,21 @@ import com.auth0.android.authentication.AuthenticationException;
 import com.auth0.android.callback.Callback;
 import com.auth0.android.result.Credentials;
 import com.foodmap.app.databinding.ActivityLoginBinding;
-import com.foodmap.app.model.Auth0Manager;
+import com.foodmap.app.model.auth.Auth0Manager;
 import com.foodmap.app.model.List;
 import com.foodmap.app.model.User;
-import com.foodmap.app.model.database.Firestore;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.OAuthProvider;
-import com.google.gson.Gson;
+import com.foodmap.app.model.database.FirestoreHandler;
+import com.foodmap.app.model.database.SharedPreferencesManager;
 
 import org.jetbrains.annotations.Nullable;
 
-
+/**
+ * Login Screen
+ * Connect to auth0 webpage and allows users to login.
+ */
 public final class LoginActivity extends AppCompatActivity {
+
+    private static final String TAG_LOGIN = "Log.Login";
 
     private ActivityLoginBinding binding;
     private Auth0Manager auth0Manager;
@@ -40,6 +36,7 @@ public final class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // instantiate variables
         auth0Manager = new Auth0Manager(this);
 
         binding.startButton.setOnClickListener(v -> {
@@ -47,16 +44,16 @@ public final class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onSuccess(Credentials credentials) {
-                    System.out.println("Authentication with Auth0 successful");
+                    Log.i(TAG_LOGIN, "Authentication with Auth0 successful");
+
                     // TODO: authenticate user with Firebase
 
                     // create user with credentials
-                    User user = new User(
+                    saveUser(new User(
                             credentials.getUser().getId(),
                             credentials.getUser().getEmail(),
                             credentials.getUser().getPictureURL()
-                    );
-                    saveUser(user);
+                    ));
 
                     // open main activity
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -66,7 +63,7 @@ public final class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(@NonNull AuthenticationException e) {
-                    System.out.println("Authentication with Auth0 failed");
+                    Log.e(TAG_LOGIN, "Authentication with Auth0 failed: " + e.getMessage());
                     Toast.makeText(LoginActivity.this,
                             "Login failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
@@ -74,36 +71,18 @@ public final class LoginActivity extends AppCompatActivity {
         });
     }
 
-//    private void signInWithFirebase(String idToken) {
-//        firebaseAuth.signInWithCustomToken(idToken)
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if (task.isSuccessful()) {
-//                            FirebaseUser user = firebaseAuth.getCurrentUser();
-//                            System.out.println("authentication with firebase successful");
-//                        } else {
-//                            System.out.println("authentication with firebase failed");
-//                        }
-//                    }
-//                });
-//    }
-
     private void saveUser(User user){
         // save user ID locally to shared preferences
-        SharedPreferences sharedPreferences = this.getSharedPreferences("SHARED_PREFS_USER", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("EDITOR_USER_ID", user.getId());
-        editor.apply();
+        SharedPreferencesManager.saveUser(this, user);
 
         // upload user to firestore
-        Firestore firestore = new Firestore(user.getId());
-        firestore.doesUserExist(new Firestore.FirestoreCallback() {
+        FirestoreHandler.doesUserExist(user.getId(), new FirestoreHandler.FirestoreCallback() {
             @Override
             public void isUserExist(boolean exist) {
                 if(!exist){
-                    firestore.addNewUserCollection(user);
-                    firestore.addList(List.defaultList);
+                    // upload if user does not exist
+                    FirestoreHandler.addNewUserCollection(user);
+                    FirestoreHandler.addList(user.getId(), List.defaultList);
                 }
             }
         });

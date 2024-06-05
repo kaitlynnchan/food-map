@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:padding="24dp"
-    tools:context=".ui.main.ListDialog">
+    tools:context=".ui.dialog.ListDialog">
 
     <EditText
         android:id="@+id/listNameEditText"

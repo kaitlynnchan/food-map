@@ -6,18 +6,24 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * List Class
+ * Defines a class model including:
+ *  id, name, description, color index, pins
+ * Defines a default list for new users
+ */
 public class List {
 
     public static List defaultList = new List("Favorites", "", 0);
 
-    private String listId;
+    private String id;
     private String name;
     private String description;
     private int colorIndex;
     private ArrayList<PinnedLocation> pins;
 
     public List(String name, String description, int colorIndex) {
-        this.listId = UUID.randomUUID().toString();
+        this.id = UUID.randomUUID().toString();
         this.name = name;
         this.description = description;
         this.colorIndex = colorIndex;
@@ -25,8 +31,8 @@ public class List {
         pins = new ArrayList<>();
     }
 
-    public List(String listId, String name, String description, int colorIndex) {
-        this.listId = listId;
+    public List(String id, String name, String description, int colorIndex) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.colorIndex = colorIndex;
@@ -38,11 +44,11 @@ public class List {
     public boolean equals(@Nullable Object obj) {
         List listObj = (List) obj;
         if(listObj == null) return false;
-        return (Objects.equals(listObj.listId, this.listId));
+        return (Objects.equals(listObj.id, this.id));
     }
 
-    public String getListId() {
-        return listId;
+    public String getId() {
+        return id;
     }
 
     public String getName() {

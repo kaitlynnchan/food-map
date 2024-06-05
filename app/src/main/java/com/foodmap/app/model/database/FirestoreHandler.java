@@ -1,7 +1,5 @@
 package com.foodmap.app.model.database;
 
-import static android.content.ContentValues.TAG;
-
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -23,10 +21,17 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Firestore {
-    private FirebaseFirestore db;
-    private String userID;
+/**
+ * Firestore Handler Class
+ * Handles calls to Firebase Firestore database.
+ */
+public class FirestoreHandler {
 
+    private static final String TAG_FIRESTORE = "Log.Firestore";
+
+    /**
+     * Callback methods
+     */
     public interface FirestoreCallback {
         void isUserExist(boolean exist);
     }
@@ -35,51 +40,48 @@ public class Firestore {
         ListsManager getLists(ListsManager lists);
     }
 
-    public Firestore(String userID){
-        this.userID = userID;
-        db = FirebaseFirestore.getInstance();
-    }
-
-    public Firestore(String userID, FirebaseFirestore db){
-        this.userID = userID;
-        this.db = db;
-    }
-
-    public void addNewUserCollection(User user){
+    /**
+     * Get/modify user data from firestore
+     */
+    public static void addNewUserCollection(User user){
         // Add a new document with a auth0 ID
-        db.collection("users")
-                .document(userID)
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(user.getId())
                 .set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        // success
+                        Log.i(TAG_FIRESTORE, "Uploaded user to firestore successful");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
+                        Log.e(TAG_FIRESTORE, "Failed uploading to firestore: " + e.getMessage());
                     }
                 });
     }
 
-    public void getUserCollection(User user){
-        db.collection("users")
-                .document(userID)
+    public static void getUserCollection(String userId, User user){
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(userId)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Log.i(TAG_FIRESTORE, "Successfully accessed user");
                         User userData = documentSnapshot.toObject(User.class);
                         user.setUser(userData);
                     }
                 });
     }
 
-    public void doesUserExist(FirestoreCallback callback){
-        db.collection("users")
-                .document(userID)
+    public static void doesUserExist(String userId, FirestoreCallback callback){
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(userId)
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -92,31 +94,36 @@ public class Firestore {
                 });
     }
 
-    public void addList(List list){
+    /**
+     * Get/modify list data from firestore
+     */
+    public static void addList(String userId, List list){
         Map<String, Object> listData = new HashMap<>();
-        listData.put("listID", list.getListId());
+        listData.put("id", list.getId());
         listData.put("name", list.getName());
         listData.put("description", list.getDescription());
         listData.put("color", list.getColorIndex());
 
-        db.collection("users/" + userID + "/lists")
-                .document(list.getListId())
+        FirebaseFirestore.getInstance()
+                .collection("users/" + userId + "/lists")
+                .document(list.getId())
                 .set(listData);
     }
 
-    public ListsManager getListCollection(FirestoreListCallback callback){
+    public static ListsManager getListCollection(String userId, FirestoreListCallback callback){
         ListsManager lists = ListsManager.getInstance();
-        db.collection("users/" + userID + "/lists")
+        FirebaseFirestore.getInstance()
+                .collection("users/" + userId + "/lists")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                Log.d(TAG_FIRESTORE, document.getId() + " => " + document.getData());
                                 Map<String, Object> data = document.getData();
                                 lists.configureList(new List(
-                                        data.get("listID").toString(),
+                                        data.get("id").toString(),
                                         data.get("name").toString(),
                                         data.get("description").toString(),
                                         Integer.parseInt(data.get("color").toString())
@@ -124,7 +131,7 @@ public class Firestore {
                             }
                             callback.getLists(lists);
                         } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
+                            Log.e(TAG_FIRESTORE, "Error accessing documents: ", task.getException());
                             callback.getLists(null);
                         }
                     }
@@ -132,11 +139,15 @@ public class Firestore {
         return lists;
     }
 
-    public void addPin(String listID, PinnedLocation location){
-        db.collection("users")
-                .document(userID)
+    /**
+     * Get/modify pin data from firestore
+     */
+    public static void addPin(String id, PinnedLocation location){
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(id)
                 .collection("lists")
-                .document(listID)
+                .document(id)
                 .collection("pins")
                 .add(location)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -152,13 +163,13 @@ public class Firestore {
                     }
                 });
     }
-//
-//    public ListsManager getListPinCollection(String listID){
+
+//    public ListsManager getListPinCollection(String id){
 //        ListsManager lists = new ListsManager();
 //        db.collection("users")
 //                .document(userID)
 //                .collection("lists")
-//                .document(listID)
+//                .document(id)
 //                .collection("pins")
 //                .get()
 //                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

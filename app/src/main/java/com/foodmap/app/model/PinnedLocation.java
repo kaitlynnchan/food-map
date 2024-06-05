@@ -1,5 +1,10 @@
 package com.foodmap.app.model;
 
+/**
+ * Pinned Location Class
+ * Stores information about pinned locations
+ *  including id, name, rating, notes
+ */
 public class PinnedLocation {
 
     private String id;

@@ -2,6 +2,10 @@ package com.foodmap.app.model;
 
 import java.util.ArrayList;
 
+/**
+ * List Manager Class
+ * Stores a collection of lists. Class is singleton
+ */
 public class ListsManager {
 
     private ArrayList<List> lists = new ArrayList<>();

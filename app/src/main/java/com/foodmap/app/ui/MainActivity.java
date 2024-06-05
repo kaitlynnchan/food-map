@@ -1,71 +1,49 @@
 package com.foodmap.app.ui;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.foodmap.app.databinding.ActivityMainBinding;
 
 import com.foodmap.app.R;
-import com.foodmap.app.model.List;
 import com.foodmap.app.model.ListsManager;
 import com.foodmap.app.model.User;
-import com.foodmap.app.model.database.Firestore;
-import com.foodmap.app.ui.main.ListDialog;
-import com.foodmap.app.ui.main.ListFragment;
-import com.foodmap.app.ui.main.MapsFragment;
-import com.foodmap.app.ui.main.ProfileFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.foodmap.app.model.database.FirestoreHandler;
+import com.foodmap.app.model.database.SharedPreferencesManager;
+import com.foodmap.app.ui.dialog.ListDialog;
+import com.foodmap.app.ui.mainfragment.ListFragment;
+import com.foodmap.app.ui.mainfragment.MapsFragment;
+import com.foodmap.app.ui.mainfragment.ProfileFragment;
 
+/**
+ * Main Screen
+ * Displays bottom navigation, floating action button, header
+ */
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    public ListsManager listsManager;
+    private ListsManager listsManager;
     private User user;
-    public static Firestore firestore;
+    private int currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // instantiate variables
         listsManager = ListsManager.getInstance();
         user = new User();
-        loadUser();
-
+        // load user
+        FirestoreHandler.getUserCollection(SharedPreferencesManager.getUserId(this), user);
         // connect bottom navigation
-        MapsFragment mapsFragment = new MapsFragment();
-        ListFragment listFragment = new ListFragment();
-        ProfileFragment profileFragment = new ProfileFragment();
-
-        binding.bottomNavigationView.setOnItemSelectedListener(menuItem -> {
-            switch (menuItem.getItemId()){
-                case (R.id.location):
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.mainActivityFragment, mapsFragment)
-                            .commit();
-                    return true;
-                case (R.id.list):
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.mainActivityFragment, listFragment)
-                            .commit();
-                    return true;
-                case (R.id.profile):
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.mainActivityFragment, profileFragment)
-                            .commit();
-                    return true;
-            }
-            return false;
-        });
+        currentFragment = R.layout.fragment_maps;
+        loadBottomNavigation();
 
         binding.addFloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,13 +54,36 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    
+    private void loadBottomNavigation() {
+        MapsFragment mapsFragment = new MapsFragment();
+        ListFragment listFragment = new ListFragment();
+        ProfileFragment profileFragment = ProfileFragment.newInstance();
 
-    private void loadUser(){
-        SharedPreferences sharedPreferences = this.getSharedPreferences("SHARED_PREFS_USER", MODE_PRIVATE);
-        String userID = sharedPreferences.getString("EDITOR_USER_ID", "");
+        binding.bottomNavigationView.setOnItemSelectedListener(menuItem -> {
+            switch (menuItem.getItemId()){
+                case (R.id.location):
+                    startFragment(mapsFragment);
+                    currentFragment = R.layout.fragment_maps;
+                    return true;
+                case (R.id.list):
+                    startFragment(listFragment);
+                    currentFragment = R.layout.fragment_list;
+                    return true;
+                case (R.id.profile):
+                    startFragment(profileFragment);
+                    currentFragment = R.layout.fragment_profile;
+                    return true;
+            }
+            return false;
+        });
+    }
 
-        firestore = new Firestore(userID);
-        firestore.getUserCollection(user);
+    private void startFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.mainActivityFragment, fragment)
+                .commit();
     }
 
 }

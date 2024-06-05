@@ -1,4 +1,4 @@
-package com.foodmap.app.ui.main;
+package com.foodmap.app.ui.listview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -13,6 +13,10 @@ import com.foodmap.app.R;
 import com.foodmap.app.model.List;
 import com.foodmap.app.model.ListsManager;
 
+/**
+ * Recycler View List Adapter
+ * Binds lists to recycler view using holder.
+ */
 public class ListAdapter extends RecyclerView.Adapter<ListViewHolder>{
 
     private ListsManager listsManager;
