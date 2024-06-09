@@ -2,8 +2,10 @@ package com.foodmap.app.ui;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -60,30 +62,59 @@ public class MainActivity extends AppCompatActivity {
         ListFragment listFragment = new ListFragment();
         ProfileFragment profileFragment = ProfileFragment.newInstance();
 
+        startFragment(mapsFragment, R.layout.fragment_maps);
         binding.bottomNavigationView.setOnItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()){
                 case (R.id.location):
-                    startFragment(mapsFragment);
-                    currentFragment = R.layout.fragment_maps;
+                    startFragment(mapsFragment, R.layout.fragment_maps);
                     return true;
                 case (R.id.list):
-                    startFragment(listFragment);
-                    currentFragment = R.layout.fragment_list;
+                    startFragment(listFragment, R.layout.fragment_list);
                     return true;
                 case (R.id.profile):
-                    startFragment(profileFragment);
-                    currentFragment = R.layout.fragment_profile;
+                    startFragment(profileFragment, R.layout.fragment_profile);
                     return true;
             }
             return false;
         });
     }
 
-    private void startFragment(Fragment fragment) {
+    private void startFragment(Fragment fragment, int fragmentId) {
+        currentFragment = fragmentId;
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.mainActivityFragment, fragment)
                 .commit();
+
+        if(currentFragment == R.layout.fragment_maps){
+            // remove title background
+            binding.titleToolbar.setBackground(null);
+
+            // make map full screen
+            ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
+                    ConstraintLayout.LayoutParams.MATCH_PARENT,
+                    ConstraintLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.topToTop = R.id.titleToolbar;
+            binding.mainActivityFragment.setLayoutParams(params);
+
+            // hide floating button
+            binding.addFloatingButton.hide();
+        } else{
+            // add title background
+            binding.titleToolbar.setBackgroundResource(R.drawable.title_background);
+
+            // set fragment to below header
+            ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
+                    ConstraintLayout.LayoutParams.MATCH_PARENT,
+                    ConstraintLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.topToBottom = R.id.titleToolbar;
+            binding.mainActivityFragment.setLayoutParams(params);
+
+            // show floating button
+            binding.addFloatingButton.show();
+        }
     }
 
 }
