@@ -1,7 +1,9 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     id("com.google.gms.google-services")
 }
 
@@ -23,6 +25,12 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        val secretsFile = rootProject.file("secrets.properties")
+        val properties = Properties()
+        properties.load(secretsFile.inputStream())
+
+        buildConfigField("String", "MAPS_API_KEY", properties["MAPS_API_KEY"] as String)
     }
 
     buildTypes {
@@ -95,6 +103,7 @@ dependencies {
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
     implementation(libs.firebase.auth)
+    implementation(libs.places)
     testImplementation(libs.junit)
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
     testImplementation("org.mockito:mockito-core:3.11.2")
